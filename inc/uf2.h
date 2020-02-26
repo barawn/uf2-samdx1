@@ -48,15 +48,15 @@
 // Enable reading flash via FAT files; otherwise drive will appear empty
 #define USE_FAT 1 // 272 bytes
 // Enable index.htm file on the drive
-#define USE_INDEX_HTM 1 // 132 bytes
+#define USE_INDEX_HTM 0 // 132 bytes
 // Enable USB CDC (Communication Device Class; i.e., USB serial) monitor for Arduino style flashing
 #define USE_CDC 1 // 1264 bytes (plus terminal, see below)
 // Support the UART (real serial port, not USB)
-#define USE_UART 0
+#define USE_UART 1
 // Support Human Interface Device (HID) - serial, flashing and debug
-#define USE_HID 1 // 788 bytes
+#define USE_HID 0 // 788 bytes
 // Expose HID via WebUSB
-#define USE_WEBUSB 1
+#define USE_WEBUSB 0
 // Doesn't yet disable code, just enumeration
 #define USE_MSC 1
 
@@ -75,8 +75,8 @@
 // Fine-tuning of features
 #define USE_HID_SERIAL 0   // just an example, not really needed; 36 bytes
 #define USE_HID_EXT 1      // extended HID commands (read/write mem); 60 bytes
-#define USE_HID_HANDOVER 1 // allow HID application->bootloader seamless transition; 56 bytes
-#define USE_MSC_HANDOVER 1 // ditto for MSC; 348 bytes
+#define USE_HID_HANDOVER 0 // allow HID application->bootloader seamless transition; 56 bytes
+#define USE_MSC_HANDOVER 0 // ditto for MSC; 348 bytes
 #define USE_MSC_CHECKS 0   // check validity of MSC commands; 460 bytes
 #define USE_CDC_TERMINAL 0 // enable ASCII mode on CDC loop (not used by BOSSA); 228 bytes
 #define USE_DBG_MSC 0      // output debug info about MSC
@@ -271,11 +271,21 @@ void led_signal(void);
 void led_init(void);
 void RGBLED_set_color(uint32_t color);
 
+#if defined(LED_INVERTED)
+#define LED_ON_OP OUTCLR
+#define LED_OFF_OP OUTSET
+#define LED_TGL_OP OUTTGL
+#else
+#define LED_ON_OP OUTSET
+#define LED_OFF_OP OUTCLR
+#define LED_TGL_OP OUTTGL
+#endif
+
 // Not all targets have a LED
 #if defined(LED_PIN)
-#define LED_MSC_OFF() PINOP(LED_PIN, OUTCLR)
-#define LED_MSC_ON() PINOP(LED_PIN, OUTSET)
-#define LED_MSC_TGL() PINOP(LED_PIN, OUTTGL)
+#define LED_MSC_OFF() PINOP(LED_PIN, LED_ON_OP)
+#define LED_MSC_ON() PINOP(LED_PIN, LED_OFF_OP)
+#define LED_MSC_TGL() PINOP(LED_PIN, LED_TGL_OP)
 #else
 #define LED_MSC_OFF()
 #define LED_MSC_ON()
