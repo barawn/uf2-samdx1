@@ -223,6 +223,11 @@ const DeviceVectors exception_table = {
 #endif
 };
 
+// if we want to use the early startup and need defines, they go here.
+#ifdef USE_BOARD_EARLY_STARTUP_DEFINES
+BOARD_EARLY_STARTUP_DEFINES;
+#endif
+
 /**
  * \brief This is the code that gets called on processor reset.
  * To initialize the device, and call the main() routine.
@@ -231,6 +236,10 @@ void Reset_Handler(void)
 {
         uint32_t *pSrc, *pDest;
 
+	#ifdef USE_BOARD_EARLY_STARTUP
+	BOARD_EARLY_STARTUP();
+	#endif
+	
         /* Initialize the relocate segment */
         pSrc = &_etext;
         pDest = &_srelocate;
