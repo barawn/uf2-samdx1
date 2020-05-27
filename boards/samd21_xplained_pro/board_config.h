@@ -1,14 +1,14 @@
 #ifndef BOARD_CONFIG_H
 #define BOARD_CONFIG_H
 
-#define VENDOR_NAME "Microchip"
-#define PRODUCT_NAME "SAMD21 Xplained Pro"
-#define VOLUME_LABEL "FEATHERBOOT"
-#define INDEX_URL "http://adafru.it/"
-#define BOARD_ID "SAMD21J18A-Feather-v0"
+#define VENDOR_NAME "Atmel Corp"
+#define PRODUCT_NAME "Atmel SAMD21-XPRO"
+#define VOLUME_LABEL "SAMD21BOOT"
+#define INDEX_URL "http://microchip.com/"
+#define BOARD_ID "SAMD21-XPRO"
 
-#define USB_VID 0x239A
-#define USB_PID 0x0015
+#define USB_VID 0x03EB
+#define USB_PID 0x6124
 
 #define LED_PIN PIN_PB30
 #define LED_INVERTED
